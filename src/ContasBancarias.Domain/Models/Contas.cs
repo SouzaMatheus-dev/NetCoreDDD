@@ -13,7 +13,6 @@ namespace ContasBancarias.Domain.Models
         public Contas()
         {
             this.EhAtivo = true;
-            this.DataAbertura = DateTime.Now;
         }
 
         public int NumeroConta { get; set; }
