@@ -9,13 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ContasBancarias.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211103021903_Inicial")]
+    [Migration("20211103122359_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("ContasBancarias")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -42,7 +43,8 @@ namespace ContasBancarias.Infra.Migrations
                     b.Property<int>("NumeroConta")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("id");
 
                     b.ToTable("Contas");
                 });

@@ -6,8 +6,12 @@ namespace ContasBancarias.Infra.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "ContasBancarias");
+
             migrationBuilder.CreateTable(
                 name: "Contas",
+                schema: "ContasBancarias",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -20,14 +24,15 @@ namespace ContasBancarias.Infra.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Contas", x => x.Id);
+                    table.PrimaryKey("id", x => x.Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Contas");
+                name: "Contas",
+                schema: "ContasBancarias");
         }
     }
 }
