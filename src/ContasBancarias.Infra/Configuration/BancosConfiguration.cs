@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace ContasBancarias.Infra.Configuration
 {
-    public class BancosConfiguration : IEntityTypeConfiguration<Bancos>
+    public class ContasConfiguration : IEntityTypeConfiguration<Contas>
     {
-        public void Configure(EntityTypeBuilder<Bancos> builder)
+        public void Configure(EntityTypeBuilder<Contas> builder)
         {
-            builder.ToTable("Bancos");
+            builder.ToTable("Contas");
         }
     }
 }
