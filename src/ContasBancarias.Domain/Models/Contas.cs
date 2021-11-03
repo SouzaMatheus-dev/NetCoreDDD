@@ -21,5 +21,7 @@ namespace ContasBancarias.Domain.Models
         public string NomeOuRazaoSocial { get; set; }
         public DateTime DataAbertura { get; } = DateTime.Now;
         public bool EhAtivo { get; set; }
+        public int BancoId { get; set; }
+        public Bancos Banco { get; set; }
     }
 }
