@@ -1,4 +1,7 @@
+using ContasBancarias.Domain.Interfaces;
+using ContasBancarias.Domain.Models;
 using ContasBancarias.Infra.Context;
+using ContasBancarias.Infra.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +29,11 @@ namespace ContasBancarias.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddScoped(typeof(IRepository<Contas>), typeof(ContasRepository));
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(ContasService));
+            services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
+
             services.AddControllers();
 
             services.AddDbContext<AppDbContext>(
