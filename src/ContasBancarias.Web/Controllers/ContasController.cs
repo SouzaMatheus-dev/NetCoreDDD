@@ -22,22 +22,29 @@ namespace ContasBancarias.Web.Controllers
         }
 
         [HttpGet]
+        public ActionResult Index()
+        {
+            var contatos = _contasRepository.GetAll();
+            return View(contatos);
+        }
+
+        [HttpGet]
         public IEnumerable<Contas> GetContas()
         {
             var contatos = _contasRepository.GetAll();
             return (IEnumerable<Contas>)View(contatos);
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<Contas> GetConta(int id)
-        {
-            var contato = _contasRepository.GetById(id);
-            if (contato == null)
-            {
-                return NotFound(new { message = $"Conta de id={id} não encontrado" });
-            }
-            return contato;
-        }
+        //[HttpGet("{id}")]
+        //public ActionResult<Contas> GetConta(int id)
+        //{
+        //    var contato = _contasRepository.GetById(id);
+        //    if (contato == null)
+        //    {
+        //        return NotFound(new { message = $"Conta de id={id} não encontrado" });
+        //    }
+        //    return contato;
+        //}
 
         [HttpGet]
         public ActionResult Cadastrar()
