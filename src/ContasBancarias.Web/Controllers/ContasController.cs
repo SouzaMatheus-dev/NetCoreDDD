@@ -49,14 +49,17 @@ namespace ContasBancarias.Web.Controllers
         [HttpPost]
         public ActionResult Cadastrar(Contas modelo)
         {
-            if (!ModelState.IsValid)
+            ValidatorContas validator = new ValidatorContas();
+            var validationResult = validator.Validate(modelo);
+
+            if (!validationResult.IsValid)
             {
-                return View(modelo);
+                return BadRequest(validationResult.Errors);
             }
 
             _contasService.Save(modelo);
 
-            return RedirectToAction(nameof(Index));
+            return Ok();
         }
     }
 }

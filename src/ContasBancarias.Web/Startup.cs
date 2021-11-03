@@ -2,6 +2,7 @@ using ContasBancarias.Domain.Interfaces;
 using ContasBancarias.Domain.Models;
 using ContasBancarias.Infra.Context;
 using ContasBancarias.Infra.Repositories;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace ContasBancarias.Web
@@ -34,7 +36,17 @@ namespace ContasBancarias.Web
             services.AddScoped(typeof(ContasService));
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
 
-            services.AddControllers();
+            services.AddControllers()
+            .AddFluentValidation(fv =>
+            {
+                fv.ImplicitlyValidateChildProperties = true;
+                fv.ImplicitlyValidateRootCollectionElements = true;
+
+                fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+                // Other way to register validators
+                //fv.RegisterValidatorsFromAssemblyContaining<Startup>();
+            });
 
             services.AddDbContext<AppDbContext>(
                 context => context.UseSqlServer(Configuration.GetConnectionString("Default"))
