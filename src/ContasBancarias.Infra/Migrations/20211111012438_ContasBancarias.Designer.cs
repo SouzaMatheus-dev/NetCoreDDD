@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ContasBancarias.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20211103124513_Inclusao-Vinculo-Conta-Banco")]
-    partial class InclusaoVinculoContaBanco
+    [Migration("20211111012438_ContasBancarias")]
+    partial class ContasBancarias
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

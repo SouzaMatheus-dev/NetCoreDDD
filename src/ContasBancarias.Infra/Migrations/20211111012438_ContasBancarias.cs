@@ -2,20 +2,12 @@
 
 namespace ContasBancarias.Infra.Migrations
 {
-    public partial class InclusaoBancos : Migration
+    public partial class ContasBancarias : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropPrimaryKey(
-                name: "id",
-                schema: "ContasBancarias",
-                table: "Contas");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Contas",
-                schema: "ContasBancarias",
-                table: "Contas",
-                column: "Id");
+            migrationBuilder.EnsureSchema(
+                name: "ContasBancarias");
 
             migrationBuilder.CreateTable(
                 name: "Bancos",
@@ -31,6 +23,32 @@ namespace ContasBancarias.Infra.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bancos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Contas",
+                schema: "ContasBancarias",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NumeroConta = table.Column<int>(type: "int", nullable: false),
+                    NumeroAgencia = table.Column<int>(type: "int", nullable: false),
+                    CpfOuCnpj = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NomeOuRazaoSocial = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EhAtivo = table.Column<bool>(type: "bit", nullable: false),
+                    BancoId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Contas_Bancos_BancoId",
+                        column: x => x.BancoId,
+                        principalSchema: "ContasBancarias",
+                        principalTable: "Bancos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -50,24 +68,23 @@ namespace ContasBancarias.Infra.Migrations
                     { 10, false, "422", "SAFRA" },
                     { 11, false, "477", "CITIBANK" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contas_BancoId",
+                schema: "ContasBancarias",
+                table: "Contas",
+                column: "BancoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Bancos",
+                name: "Contas",
                 schema: "ContasBancarias");
 
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Contas",
-                schema: "ContasBancarias",
-                table: "Contas");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "id",
-                schema: "ContasBancarias",
-                table: "Contas",
-                column: "Id");
+            migrationBuilder.DropTable(
+                name: "Bancos",
+                schema: "ContasBancarias");
         }
     }
 }

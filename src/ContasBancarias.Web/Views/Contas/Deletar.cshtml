@@ -1,15 +1,14 @@
 ﻿@model ContasBancarias.Web.DTOs.ContasDTO
 
 @{
-    ViewData["Title"] = "Cadastrar";
+    ViewData["Title"] = "Deletar";
 }
-
 
 <ol class="breadcrumb float-xl-right">
     <li class="breadcrumb-item text-dark-blue"><a href="@Url.Action("Cadastrar", "Contas" )">Página principal</a></li>
-    <li class="breadcrumb-item active text-dark-blue opacity-75">Cadastrar</li>
+    <li class="breadcrumb-item active text-dark-blue opacity-75">Deletar</li>
 </ol>
-<h1 class="page-header text-dark-blue">Cadastrar<small></small></h1>
+<h1 class="page-header text-dark-blue">Deletar<small></small></h1>
 
 <div class="panel panel-inverse">
     <div class="panel-heading">
@@ -25,45 +24,56 @@
 
         <div class="row">
             <div class="col-md-4">
-                <form asp-action="Cadastrar">
-                    <input type="hidden" value="true" asp-for="EhAtivo" />
+                <form asp-action="Deletar">
+                    <input type="hidden" value="@Model.Id" asp-for="Id" />
+                    <input type="hidden" value="@Model.EhAtivo" asp-for="EhAtivo" />
 
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="NumeroConta" class="control-label">Número da Conta</label>
-                        <input asp-for="NumeroConta" class="form-control" />
+                        <input asp-for="NumeroConta" value="@Model.NumeroConta" readonly class="form-control" />
                         <span asp-validation-for="NumeroConta" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="NumeroAgencia" class="control-label">Número da Agência</label>
-                        <input asp-for="NumeroAgencia" class="form-control" />
+                        <input asp-for="NumeroAgencia" value="@Model.NumeroAgencia" readonly class="form-control" />
                         <span asp-validation-for="NumeroAgencia" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="CpfOuCnpj" class="control-label"> CPF / CNPJ</label>
-                        <input asp-for="CpfOuCnpj" class="form-control" />
+                        <input asp-for="CpfOuCnpj" value="@Model.CpfOuCnpj" readonly class="form-control" />
                         <span asp-validation-for="CpfOuCnpj" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="NomeOuRazaoSocial" class="control-label">Nome / Razão Social</label>
-                        <input asp-for="NomeOuRazaoSocial" class="form-control" />
+                        <input asp-for="NomeOuRazaoSocial" value="@Model.NomeOuRazaoSocial" readonly class="form-control" />
                         <span asp-validation-for="NomeOuRazaoSocial" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
                         <label asp-for="BancoId" class="control-label">Nome / Razão Social</label>
-                        <select asp-for="BancoId" class="form-control">
+                        <select asp-for="BancoId" disabled class="form-control">
                             @foreach (var item in Model.Bancos)
                             {
-                                <option value="@item.Id">
-                                    @item.Nome
-                                </option>
+                                if (item.Id == Model.BancoId)
+                                {
+                                    <option selected value="@item.Id">
+                                        @item.Nome
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@item.Id">
+                                        @item.Nome
+                                    </option>
+                                }
+
                             }
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <input type="submit" value="Deletar" class="btn btn-primary" />
                     </div>
                 </form>
             </div>

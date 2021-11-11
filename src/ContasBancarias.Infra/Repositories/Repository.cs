@@ -1,6 +1,7 @@
 ﻿using ContasBancarias.Domain.Interfaces;
 using ContasBancarias.Domain.Models;
 using ContasBancarias.Infra.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,9 +35,33 @@ namespace ContasBancarias.Infra.Repositories
             return new List<TEntity>();
         }
 
-        public virtual void Save(TEntity entity)
+        public virtual List<Bancos> GetAllBancos()
         {
-            _context.Set<TEntity>().Add(entity);
+            var query = _context.Set<Bancos>();
+            if (query.Any())
+                return query.ToList();
+            return new List<Bancos>();
+        }
+
+        public virtual void Save(Contas entity)
+        {
+            _context.Set<Contas>().Add(entity);
+
+            _context.SaveChanges();
+        }
+
+        public virtual void Edit(Contas entity)
+        {
+            _context.Entry(entity).State = EntityState.Modified;
+
+            _context.SaveChanges();
+        }
+
+        public virtual void Delete(Contas entity)
+        {
+            _context.Remove(entity);
+
+            _context.SaveChanges();
         }
     }
 }

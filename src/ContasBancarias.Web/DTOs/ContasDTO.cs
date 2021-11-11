@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ContasBancarias.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -21,5 +22,11 @@ namespace ContasBancarias.Web.DTOs
 
         [Required]
         public string NomeOuRazaoSocial { get; set; }
+
+        [Required]
+        public bool EhAtivo { get; set; }
+
+        public int BancoId { get; set; }
+        public List<Bancos> Bancos { get; set; }
     }
 }
