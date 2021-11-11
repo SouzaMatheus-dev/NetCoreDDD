@@ -24,14 +24,14 @@ namespace ContasBancarias.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var contatos = _contasRepository.GetAll();
+            var contatos = _contasService.BuscarTodasContas();
             return View(contatos);
         }
 
         [HttpGet]
         public IEnumerable<Contas> GetContas()
         {
-            var contatos = _contasRepository.GetAll();
+            var contatos = _contasService.BuscarTodasContas();
             return (IEnumerable<Contas>)View(contatos);
         }
 
@@ -39,8 +39,7 @@ namespace ContasBancarias.Web.Controllers
         public ActionResult Cadastrar()
         {
             var modelo = new ContasDTO();
-
-            modelo.Bancos = _contasRepository.GetAllBancos();
+            modelo.Bancos = _contasService.BuscarTodosBancos();
 
             return View(modelo);
         }
@@ -49,6 +48,7 @@ namespace ContasBancarias.Web.Controllers
         public ActionResult Cadastrar(ContasDTO modelo)
         {
             ValidatorContas validator = new ValidatorContas();
+
             Contas conta = new Contas();
             conta = SetDtoToConta(modelo, conta);
 
@@ -68,7 +68,7 @@ namespace ContasBancarias.Web.Controllers
         public ActionResult Editar(int Id)
         {
             var modelo = new ContasDTO();
-            var conta = _contasRepository.GetById(Id);
+            var conta = _contasService.BuscarConta(Id);
 
             if (conta == null)
             {
@@ -85,7 +85,8 @@ namespace ContasBancarias.Web.Controllers
         public ActionResult Editar(ContasDTO modelo)
         {
             ValidatorContas validator = new ValidatorContas();
-            var conta = _contasRepository.GetById(modelo.Id);
+
+            var conta = _contasService.BuscarConta(modelo.Id);
             conta = SetDtoToConta(modelo, conta);
 
             var validationResult = validator.Validate(conta);
@@ -104,7 +105,7 @@ namespace ContasBancarias.Web.Controllers
         public ActionResult Deletar(int Id)
         {
             var modelo = new ContasDTO();
-            var conta = _contasRepository.GetById(Id);
+            var conta = _contasService.BuscarConta(Id);
 
             if (conta == null)
             {
@@ -112,7 +113,7 @@ namespace ContasBancarias.Web.Controllers
             }
 
             modelo = SetContaToDto(modelo, conta);
-            modelo.Bancos = _contasRepository.GetAllBancos();
+            modelo.Bancos = _contasService.BuscarTodosBancos();
 
             return View(modelo);
         }
@@ -121,7 +122,8 @@ namespace ContasBancarias.Web.Controllers
         public ActionResult Deletar(ContasDTO modelo)
         {
             ValidatorContas validator = new ValidatorContas();
-            var conta = _contasRepository.GetById(modelo.Id);
+
+            var conta = _contasService.BuscarConta(modelo.Id);
             conta = SetDtoToConta(modelo, conta);
 
             var validationResult = validator.Validate(conta);

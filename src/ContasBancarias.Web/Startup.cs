@@ -2,6 +2,7 @@ using ContasBancarias.Domain.Interfaces;
 using ContasBancarias.Domain.Models;
 using ContasBancarias.Infra.Context;
 using ContasBancarias.Infra.Repositories;
+using ContasBancarias.Web.Mappers;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -51,6 +52,9 @@ namespace ContasBancarias.Web
             services.AddDbContext<AppDbContext>(
                 context => context.UseSqlServer(Configuration.GetConnectionString("Default"))
             );
+
+            services.AddAutoMapper(typeof(DomainToViewModelMappingProfile).Assembly,
+                                  typeof(ViewModelToDomainMappingProfile).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

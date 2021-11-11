@@ -30,5 +30,41 @@ namespace ContasBancarias.Domain.Models
         {
             _contaRepository.Delete(conta);
         }
+
+        public IEnumerable<Contas> BuscarTodasContas()
+        {
+            try
+            {
+                return _contaRepository.GetAll();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public List<Bancos> BuscarTodosBancos()
+        {
+            try
+            {
+                return _contaRepository.GetAllBancos();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public Contas BuscarConta(int Id)
+        {
+            try
+            {
+                return _contaRepository.GetById(Id);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
