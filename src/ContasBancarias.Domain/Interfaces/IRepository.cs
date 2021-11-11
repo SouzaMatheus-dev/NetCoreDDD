@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ContasBancarias.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,10 @@ namespace ContasBancarias.Domain.Interfaces
 
         IEnumerable<TEntity> GetAll();
 
-        void Save(TEntity entity);
+        List<Bancos> GetAllBancos();
+
+        void Save(Contas entity);
+
+        void Edit(Contas entity);
     }
 }

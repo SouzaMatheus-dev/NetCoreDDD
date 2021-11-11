@@ -4,7 +4,6 @@
     ViewData["Title"] = "Pagina Inicial";
 }
 
-
 <div class="card-footer">
     <a href="@Url.Action("Cadastrar", "Contas" )" class="btn btn-info"> Cadastrar Conta Bancária </a>
     <button type="submit" class="btn btn-primary float-right">Buscar</button>
@@ -13,20 +12,33 @@
 <table class="table">
     <thead class="thead-dark">
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Agência</th>
-            <th scope="col">Conta</th>
+            <th scope="col">Ações</th>
+            <th scope="col">Código do Banco</th>
+            <th scope="col">Número da Conta</th>
+            <th scope="col">Número da Agência</th>
+            <th scope="col">Nome / Razão Social</th>
+            <th scope="col">Situação</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <th scope="row">@item.Id</th>
-                <td>@item.NomeOuRazaoSocial</td>
-                <td>@item.NumeroAgencia</td>
+                <td><a href="@Url.Action("Editar", "Contas", new { Id = item.Id })" class="btn btn-info"><i>Edit</i></a></td>
+                <td>@item.Id</td>
                 <td>@item.NumeroConta</td>
+                <td>@item.NumeroAgencia</td>
+                <td>@item.NomeOuRazaoSocial</td>
+                <td>
+                    @if (item.EhAtivo)
+                    {
+                        @:Ativo
+                    }
+                    else
+                    {
+                        @:Inativo
+                    }
+                </td>
             </tr>
         }
     </tbody>

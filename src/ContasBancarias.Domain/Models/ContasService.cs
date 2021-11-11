@@ -18,17 +18,12 @@ namespace ContasBancarias.Domain.Models
 
         public void Save(Contas conta)
         {
-            //var conta = _contaRepository.GetById(id);
-
-            //if (conta is object)
-            //{
-            //conta = new Contas();
             _contaRepository.Save(conta);
-            //}
-            //else
-            //{
-            //conta.Update();
-            //}
+        }
+
+        public void Edit(Contas conta)
+        {
+            _contaRepository.Edit(conta);
         }
     }
 }
