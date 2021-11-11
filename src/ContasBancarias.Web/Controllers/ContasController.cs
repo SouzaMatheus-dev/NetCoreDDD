@@ -1,4 +1,5 @@
-﻿using ContasBancarias.Domain.Interfaces;
+﻿using AutoMapper;
+using ContasBancarias.Domain.Interfaces;
 using ContasBancarias.Domain.Models;
 using ContasBancarias.Web.DTOs;
 using Microsoft.AspNetCore.Mvc;
@@ -13,26 +14,29 @@ namespace ContasBancarias.Web.Controllers
     {
         private readonly ContasService _contasService;
         private readonly IRepository<Contas> _contasRepository;
+        private readonly IMapper _mapper;
 
         public ContasController(ContasService contasService,
-            IRepository<Contas> contasRepository)
+            IRepository<Contas> contasRepository,
+            IMapper mapper)
         {
             _contasService = contasService;
             _contasRepository = contasRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public ActionResult Index()
         {
-            var contatos = _contasService.BuscarTodasContas();
-            return View(contatos);
+            var contas = _contasService.BuscarTodasContas();
+            return View(contas);
         }
 
         [HttpGet]
         public IEnumerable<Contas> GetContas()
         {
-            var contatos = _contasService.BuscarTodasContas();
-            return (IEnumerable<Contas>)View(contatos);
+            var contas = _contasService.BuscarTodasContas();
+            return (IEnumerable<Contas>)View(contas);
         }
 
         [HttpGet]
@@ -50,7 +54,7 @@ namespace ContasBancarias.Web.Controllers
             ValidatorContas validator = new ValidatorContas();
 
             Contas conta = new Contas();
-            conta = SetDtoToConta(modelo, conta);
+            conta = _mapper.Map<Contas>(modelo);
 
             var validationResult = validator.Validate(conta);
 
@@ -72,10 +76,10 @@ namespace ContasBancarias.Web.Controllers
 
             if (conta == null)
             {
-                return NotFound(new { message = $"Conta de id={Id} não encontrado" });
+                return NotFound(new { message = $"Conta de id = {Id} não encontrado" });
             }
 
-            modelo = SetContaToDto(modelo, conta);
+            modelo = _mapper.Map<ContasDTO>(conta);
             modelo.Bancos = _contasRepository.GetAllBancos();
 
             return View(modelo);
@@ -87,7 +91,7 @@ namespace ContasBancarias.Web.Controllers
             ValidatorContas validator = new ValidatorContas();
 
             var conta = _contasService.BuscarConta(modelo.Id);
-            conta = SetDtoToConta(modelo, conta);
+            conta = _mapper.Map<Contas>(modelo);
 
             var validationResult = validator.Validate(conta);
 
@@ -109,10 +113,10 @@ namespace ContasBancarias.Web.Controllers
 
             if (conta == null)
             {
-                return NotFound(new { message = $"Conta de id={Id} não encontrado" });
+                return NotFound(new { message = $"Conta de id = {Id} não encontrado" });
             }
 
-            modelo = SetContaToDto(modelo, conta);
+            modelo = _mapper.Map<ContasDTO>(conta);
             modelo.Bancos = _contasService.BuscarTodosBancos();
 
             return View(modelo);
@@ -124,7 +128,7 @@ namespace ContasBancarias.Web.Controllers
             ValidatorContas validator = new ValidatorContas();
 
             var conta = _contasService.BuscarConta(modelo.Id);
-            conta = SetDtoToConta(modelo, conta);
+            conta = _mapper.Map<Contas>(modelo);
 
             var validationResult = validator.Validate(conta);
 
@@ -136,31 +140,6 @@ namespace ContasBancarias.Web.Controllers
             _contasService.Delete(conta);
 
             return RedirectToAction("Index");
-        }
-
-        public ContasDTO SetContaToDto(ContasDTO modelo, Contas conta)
-        {
-            modelo.Id = conta.Id;
-            modelo.NomeOuRazaoSocial = conta.NomeOuRazaoSocial;
-            modelo.NumeroAgencia = conta.NumeroAgencia;
-            modelo.NumeroConta = conta.NumeroConta;
-            modelo.EhAtivo = conta.EhAtivo;
-            modelo.CpfOuCnpj = conta.CpfOuCnpj;
-            modelo.BancoId = conta.BancoId;
-
-            return modelo;
-        }
-
-        public Contas SetDtoToConta(ContasDTO modelo, Contas conta)
-        {
-            conta.NomeOuRazaoSocial = modelo.NomeOuRazaoSocial;
-            conta.NumeroAgencia = modelo.NumeroAgencia;
-            conta.NumeroConta = modelo.NumeroConta;
-            conta.EhAtivo = modelo.EhAtivo;
-            conta.CpfOuCnpj = modelo.CpfOuCnpj;
-            conta.BancoId = modelo.BancoId;
-
-            return conta;
         }
     }
 }
