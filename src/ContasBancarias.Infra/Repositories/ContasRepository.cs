@@ -1,5 +1,6 @@
 ﻿using ContasBancarias.Domain.Models;
 using ContasBancarias.Infra.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace ContasBancarias.Infra.Repositories
 
         public override Contas GetById(int id)
         {
-            var query = _context.Set<Contas>().Where(e => e.Id == id);
+            var query = _context.Set<Contas>().AsNoTracking().Where(e => e.Id == id);
 
             if (query.Any())
                 return query.First();
@@ -25,7 +26,7 @@ namespace ContasBancarias.Infra.Repositories
 
         public override IEnumerable<Contas> GetAll()
         {
-            var query = _context.Set<Contas>();
+            var query = _context.Set<Contas>().AsNoTracking();
 
             return query.Any() ? query.ToList() : new List<Contas>();
         }

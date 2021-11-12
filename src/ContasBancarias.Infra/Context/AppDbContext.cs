@@ -21,6 +21,11 @@ namespace ContasBancarias.Infra.Context
 
         public DbSet<Contas> Contas { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.EnableSensitiveDataLogging();
+        }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.HasDefaultSchema("ContasBancarias");
