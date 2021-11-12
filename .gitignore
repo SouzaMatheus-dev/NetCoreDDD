@@ -283,14 +283,6 @@ thumbs.db
 # Visual Studio CODE cache/options directory
 .vscode/
 
-# lib packages css/js
-**/wwwroot/lib/**
-
-# Bundled & Minified css/js
-**/wwwroot/css/**/.min.css
-**/wwwroot/css/*.min.css
-**/wwwroot/js/**/.min.js
-**/wwwroot/js/*.min.js
 **/PublishProfiles/*
 !**/PublishProfiles/FolderProfile.pubxml
 
