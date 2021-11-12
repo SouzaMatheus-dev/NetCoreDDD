@@ -4,10 +4,8 @@
     ViewData["Title"] = "Pagina Inicial";
 }
 
-
 <ol class="breadcrumb float-xl-right">
-    <li class="breadcrumb-item text-dark-blue"><a  href="@Url.Action("Cadastrar", "Contas" )">Página principal</a></li>
-    <li class="breadcrumb-item active text-dark-blue opacity-75">Listagem de Contas</li>
+    <li class="breadcrumb-item text-dark-blue"><a href="@Url.Action("Index", "Contas" )">Página principal</a></li>
 </ol>
 <h1 class="page-header text-dark-blue">Listagem de Contas<small></small></h1>
 
@@ -49,7 +47,7 @@
                                     <a href="@Url.Action("Editar", "Contas", new { Id = item.Id })" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Editar" class="btn btn-info"><i class="fa fa-edit"></i></a>
                                     <a href="@Url.Action("Deletar", "Contas", new { Id = item.Id })" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Deletar" class="btn btn-info"><i class="fa fa-remove"></i></a>
                                 </td>
-                                <td>@item.Id</td>
+                                <td>@item.BancoId</td>
                                 <td>@item.NumeroConta</td>
                                 <td>@item.NumeroAgencia</td>
                                 <td>@item.NomeOuRazaoSocial</td>

@@ -25,6 +25,12 @@ namespace ContasBancarias.Web.Controllers
             _mapper = mapper;
         }
 
+        [TempData]
+        public string MensagemDeSucesso { get; set; }
+
+        [TempData]
+        public string MensagemDeErro { get; set; }
+
         [HttpGet]
         public ActionResult Index()
         {
@@ -60,25 +66,33 @@ namespace ContasBancarias.Web.Controllers
 
             if (!validationResult.IsValid)
             {
-                return BadRequest(validationResult.Errors);
+                MensagemDeErro = $"ERRO: {validationResult.Errors[0].ErrorMessage}";
+
+                var modeloErr = new ContasDTO();
+                modeloErr.Bancos = _contasService.BuscarTodosBancos();
+
+                return View(modeloErr);
             }
 
             _contasService.Save(conta);
 
+            MensagemDeSucesso = "Conta cadastrada com sucesso!";
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public ActionResult Editar(int Id)
         {
-            var modelo = new ContasDTO();
             var conta = _contasService.BuscarConta(Id);
 
             if (conta == null)
             {
-                return NotFound(new { message = $"Conta de id = {Id} não encontrado" });
+                MensagemDeErro = $"Conta de id = {Id} não encontrado";
+
+                return RedirectToAction("Index");
             }
 
+            var modelo = new ContasDTO();
             modelo = _mapper.Map<ContasDTO>(conta);
             modelo.Bancos = _contasRepository.GetAllBancos();
 
@@ -91,31 +105,40 @@ namespace ContasBancarias.Web.Controllers
             ValidatorContas validator = new ValidatorContas();
 
             var conta = _contasService.BuscarConta(modelo.Id);
-            conta = _mapper.Map<Contas>(modelo);
 
             var validationResult = validator.Validate(conta);
 
             if (!validationResult.IsValid)
             {
-                return BadRequest(validationResult.Errors);
+                MensagemDeErro = $"ERRO: {validationResult.Errors[0].ErrorMessage}";
+
+                var modeloErr = new ContasDTO();
+                modeloErr.Bancos = _contasService.BuscarTodosBancos();
+
+                return View(modeloErr);
             }
+
+            conta = _mapper.Map<Contas>(modelo);
 
             _contasService.Edit(conta);
 
+            MensagemDeSucesso = "Conta editada com sucesso!";
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public ActionResult Deletar(int Id)
         {
-            var modelo = new ContasDTO();
             var conta = _contasService.BuscarConta(Id);
 
             if (conta == null)
             {
-                return NotFound(new { message = $"Conta de id = {Id} não encontrado" });
+                MensagemDeErro = $"Conta de id = {Id} não encontrado";
+
+                return RedirectToAction("Index");
             }
 
+            var modelo = new ContasDTO();
             modelo = _mapper.Map<ContasDTO>(conta);
             modelo.Bancos = _contasService.BuscarTodosBancos();
 
@@ -125,20 +148,20 @@ namespace ContasBancarias.Web.Controllers
         [HttpPost]
         public ActionResult Deletar(ContasDTO modelo)
         {
-            ValidatorContas validator = new ValidatorContas();
-
             var conta = _contasService.BuscarConta(modelo.Id);
-            conta = _mapper.Map<Contas>(modelo);
 
-            var validationResult = validator.Validate(conta);
-
-            if (!validationResult.IsValid)
+            if (conta == null)
             {
-                return BadRequest(validationResult.Errors);
+                MensagemDeErro = $"Conta de id = {modelo.Id} não encontrado";
+
+                return RedirectToAction("Index");
             }
+
+            conta = _mapper.Map<Contas>(modelo);
 
             _contasService.Delete(conta);
 
+            MensagemDeSucesso = "Conta deletada com sucesso!";
             return RedirectToAction("Index");
         }
     }

@@ -11,19 +11,14 @@ namespace ContasBancarias.Web.DTOs
     {
         public int Id { get; set; }
 
-        [Required]
         public int NumeroConta { get; set; }
 
-        [Required]
         public int NumeroAgencia { get; set; }
 
-        [Required]
         public string CpfOuCnpj { get; set; }
 
-        [Required]
         public string NomeOuRazaoSocial { get; set; }
 
-        [Required]
         public bool EhAtivo { get; set; }
 
         public int BancoId { get; set; }

@@ -3,8 +3,9 @@
 @{
     ViewData["Title"] = "Editar";
 }
+
 <ol class="breadcrumb float-xl-right">
-    <li class="breadcrumb-item text-dark-blue"><a href="@Url.Action("Cadastrar", "Contas" )">Página principal</a></li>
+    <li class="breadcrumb-item text-dark-blue"><a href="@Url.Action("Index", "Contas" )">Página principal</a></li>
     <li class="breadcrumb-item active text-dark-blue opacity-75">Editar</li>
 </ol>
 <h1 class="page-header text-dark-blue">Editar<small></small></h1>
@@ -20,69 +21,69 @@
         </div>
     </div>
     <div class="panel-body">
-            <div class="row">
-                <div class="col-md-4">
-                    <form asp-action="Editar">
-                        <input type="hidden" value="@Model.Id" asp-for="Id" />
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Editar">
+                    <input type="hidden" value="@Model.Id" asp-for="Id" />
 
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group">
-                            <label asp-for="NumeroConta" class="control-label">Número da Conta</label>
-                            <input asp-for="NumeroConta" value="@Model.NumeroConta" class="form-control" />
-                            <span asp-validation-for="NumeroConta" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="NumeroAgencia" class="control-label">Número da Agência</label>
-                            <input asp-for="NumeroAgencia" value="@Model.NumeroAgencia" class="form-control" />
-                            <span asp-validation-for="NumeroAgencia" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="CpfOuCnpj" class="control-label"> CPF / CNPJ</label>
-                            <input asp-for="CpfOuCnpj" value="@Model.CpfOuCnpj" class="form-control" />
-                            <span asp-validation-for="CpfOuCnpj" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="NomeOuRazaoSocial" class="control-label">Nome / Razão Social</label>
-                            <input asp-for="NomeOuRazaoSocial" value="@Model.NomeOuRazaoSocial" class="form-control" />
-                            <span asp-validation-for="NomeOuRazaoSocial" class="text-danger"></span>
-                        </div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="NumeroConta" class="control-label">Número da Conta</label>
+                        <input asp-for="NumeroConta" value="@Model.NumeroConta" class="form-control" />
+                        <span asp-validation-for="NumeroConta" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NumeroAgencia" class="control-label">Número da Agência</label>
+                        <input asp-for="NumeroAgencia" value="@Model.NumeroAgencia" class="form-control" />
+                        <span asp-validation-for="NumeroAgencia" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CpfOuCnpj" class="control-label"> CPF / CNPJ</label>
+                        <input asp-for="CpfOuCnpj" value="@Model.CpfOuCnpj" class="form-control" />
+                        <span asp-validation-for="CpfOuCnpj" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NomeOuRazaoSocial" class="control-label">Nome / Razão Social</label>
+                        <input asp-for="NomeOuRazaoSocial" value="@Model.NomeOuRazaoSocial" class="form-control" />
+                        <span asp-validation-for="NomeOuRazaoSocial" class="text-danger"></span>
+                    </div>
 
-                        <div class="form-group">
-                            <label asp-for="BancoId" class="control-label">Nome / Razão Social</label>
-                            <select asp-for="BancoId" class="form-control">
-                                @foreach (var item in Model.Bancos)
+                    <div class="form-group">
+                        <label asp-for="BancoId" class="control-label">Nome / Razão Social</label>
+                        <select asp-for="BancoId" class="form-control">
+                            @foreach (var item in Model.Bancos)
+                            {
+                                if (item.Id == Model.BancoId)
                                 {
-                                    if (item.Id == Model.BancoId)
-                                    {
-                                        <option selected value="@item.Id">
-                                            @item.Nome
-                                        </option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@item.Id">
-                                            @item.Nome
-                                        </option>
-                                    }
-
+                                    <option selected value="@item.Id">
+                                        @item.Nome
+                                    </option>
                                 }
-                            </select>
-                        </div>
+                                else
+                                {
+                                    <option value="@item.Id">
+                                        @item.Nome
+                                    </option>
+                                }
 
-                        <div class="form-group">
-                            <label asp-for="EhAtivo" class="control-label">Ativo</label>
-                            <input type="checkbox" value="@Model.EhAtivo" asp-for="EhAtivo" />
-                        </div>
+                            }
+                        </select>
+                    </div>
 
-                        <div class="form-group">
-                            <input type="submit" value="Editar" class="btn btn-primary" />
-                        </div>
-                    </form>
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label asp-for="EhAtivo" class="control-label">Ativo</label>
+                        <input type="checkbox" value="@Model.EhAtivo" asp-for="EhAtivo" />
+                    </div>
 
-            <div>
-                <a asp-action="Index">Retornar</a>
+                    <div class="form-group">
+                        <input type="submit" value="Editar" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
         </div>
+
+        <div>
+            <a asp-action="Index">Retornar</a>
+        </div>
+    </div>
 </div>

@@ -6,12 +6,13 @@
     <title>@ViewData["Title"] - Contas Bancárias</title>
     <link rel="stylesheet" href="~/css/app.min.css" />
     <link rel="stylesheet" href="~/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/toastr.min.css" />
 </head>
 <body>
     @*INICIO DO HEADER*@
     <div id="header" class="header navbar-default">
         <div class="navbar-header">
-            <a href="@Url.Action("Index","Home")" class="navbar-brand">
+            <a href="@Url.Action("Index","Contas")" class="navbar-brand">
                 <span>
                     <small>
                         <span>CONTAS <b style="color: var(--dark-blue);">BANCÁRIAS</b></span>
@@ -78,6 +79,9 @@
     <div id="content" class="content">
         @RenderBody()
     </div>
+    <script src="~/js/toastr.min.js" asp-append-version="true"></script>
     <script src="~/js/app.min.js" asp-append-version="true"></script>
+    <script src="~/js/Toaster.js" asp-append-version="true"></script>
+    @Html.Partial("_Mensagens")
 </body>
 </html>
